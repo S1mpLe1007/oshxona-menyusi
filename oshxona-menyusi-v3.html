@@ -1944,16 +1944,15 @@
       btn.disabled = true; btn.textContent = '⏳ Yuklanmoqda...';
       result.innerHTML = '<span class="ai-placeholder">AI retsept tayyorlamoqda...</span>';
       try {
-        const res = await fetch('https://api.anthropic.com/v1/messages', {
+       const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyCw4yHa-VveaDOhWkzTxk-794HCXwkgGVA', {, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            model: 'claude-sonnet-4-20250514', max_tokens: 1000,
-            messages: [{ role: 'user', content: `Sen professional o'zbek oshpazisin. "${input}" mahsulotlaridan o'zbek tilida qisqa retsept ber: taom nomi, miqdorlar, 4-6 qadam, vaqt.` }]
-          })
+         body: JSON.stringify({
+  contents: [{ parts: [{ text: `Sen professional o'zbek oshpazisin. "${input}" mahsulotlaridan o'zbek tilida qisqa retsept ber: taom nomi, miqdorlar, 4-6 qadam, vaqt.` }] }]
+})
         });
         const data = await res.json();
-        result.textContent = data.content?.map(c => c.text || '').join('') || 'Xatolik yuz berdi.';
+        result.textContent = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Xatolik yuz berdi.';
       } catch (e) { result.textContent = '⚠️ Tarmoq xatosi.'; }
       btn.disabled = false; btn.textContent = 'Retsept ber';
     }
