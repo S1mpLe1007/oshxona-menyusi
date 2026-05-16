@@ -228,6 +228,6 @@ def get_ratings():
     rows = conn.execute("SELECT * FROM ratings").fetchall()
     conn.close()
     return [dict(r) for r in rows]
-    @app.get("/")
+@app.get("/")
 def root():
     return FileResponse("oshxona-menyusi-v3.html")
